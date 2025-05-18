@@ -80,7 +80,7 @@
 (declare-function treesit-node-type "treesit.c")
 (declare-function treesit-node-child-by-field-name "treesit.c")
 
-(defgroup json5 ()
+(defgroup json5-ts ()
   "Major mode for editing JSON5 files."
   :group 'languages)
 
@@ -89,7 +89,7 @@
   :package-version '(json5-ts-mode . "0.0.0")
   :type 'integer
   :safe 'integerp
-  :group 'json5)
+  :group 'json5-ts)
 
 (defvar json5-ts-mode--syntax-table
   (let ((table (make-syntax-table)))
