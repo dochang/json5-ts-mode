@@ -1,0 +1,70 @@
+version: 2.1
+
+jobs:
+  megalinter:
+    docker:
+      - image: oxsecurity/megalinter:v8
+
+    steps:
+      - checkout
+
+      - run:
+          name: Setup environment variables
+          command: |
+            echo "export CI_JOB_URL=$CIRCLE_BUILD_URL" >> "$BASH_ENV"
+            # Export `CI_JOB_URL` for MegaLinter API Reporter
+            echo "export DEFAULT_WORKSPACE=$CIRCLE_WORKING_DIRECTORY" >> "$BASH_ENV"
+            . "$BASH_ENV"
+
+      - run:
+          name: Run MegaLinter
+          command: |
+            sh /entrypoint.sh
+
+      - store_artifacts:
+          path: megalinter-reports
+
+  test:
+    parameters:
+      emacs-version:
+        type: string
+
+    docker:
+      - image: silex/emacs:<< parameters.emacs-version >>-ci-eldev
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - &eldev-cache-key v1-eldev-<< parameters.emacs-version >>-{{ checksum "Eldev" }}
+            - v1-eldev-<< parameters.emacs-version >>-
+            - v1-eldev-
+
+      - run:
+          name: Test
+          command: |
+            eldev lint
+            eldev test
+
+      - save_cache:
+          key: *eldev-cache-key
+          paths:
+            - "~/.cache/eldev"
+
+workflows:
+  CI:
+    jobs:
+      - megalinter:
+          context: megalinter
+
+      - test:
+          matrix:
+            parameters:
+              emacs-version:
+                - "29.1"
+                - "29.2"
+                - "29.3"
+                - "29.4"
+                - "30.1"
+          context: test

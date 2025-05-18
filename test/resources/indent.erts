@@ -1,0 +1,32 @@
+Code:
+  (lambda ()
+    (setq indent-tabs-mode nil)
+    (setq json5-ts-mode-indent-offset 2)
+    (json5-ts-mode)
+    (indent-region (point-min) (point-max)))
+
+Name: Indent
+
+=-=
+{
+    // comments
+           unquoted: 'and you can quote me on that',
+      singleQuotes: 'I can use "double quotes" here',
+           hexadecimal: 0xdecaf,
+leadingDecimalPoint: .8675309, andTrailing: 8675309.,
+        positiveSign: +1,
+      trailingComma: 'in objects', andIn: ['arrays',],
+              "backwardsCompatible": "with JSON",
+}
+=-=
+{
+  // comments
+  unquoted: 'and you can quote me on that',
+  singleQuotes: 'I can use "double quotes" here',
+  hexadecimal: 0xdecaf,
+  leadingDecimalPoint: .8675309, andTrailing: 8675309.,
+  positiveSign: +1,
+  trailingComma: 'in objects', andIn: ['arrays',],
+  "backwardsCompatible": "with JSON",
+}
+=-=-=
