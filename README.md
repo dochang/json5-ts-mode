@@ -8,6 +8,14 @@ This package provides a tree-sitter major mode for editing JSON5 files.
 
 ## Installation
 
+Requirements:
+
+  - Git
+  - C/C++ compiler
+
+If your compiler is not `cc`/`gcc`/`c99`/`c++`/`g++`, check out the
+documentation of `treesit-language-source-alist`.
+
 ### Check the availability of `tree-sitter`
 
 ```elisp
