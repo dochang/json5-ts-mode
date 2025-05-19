@@ -46,8 +46,8 @@ jobs:
       - run:
           name: Test
           command: |
-            eldev lint
-            eldev test
+            make lint
+            make test
 
       - save_cache:
           key: *eldev-cache-key

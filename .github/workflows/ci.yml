@@ -122,5 +122,5 @@ jobs:
 
       - name: Test
         run: |
-          eldev lint
-          eldev test
+          make lint
+          make test
