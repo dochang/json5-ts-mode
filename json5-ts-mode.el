@@ -31,8 +31,8 @@
 ;;
 ;; Requirements:
 ;;
-;;   - Git
-;;   - C/C++ compiler
+;; - Git
+;; - C/C++ compiler
 ;;
 ;; If your compiler is not `cc'/`gcc'/`c99'/`c++'/`g++', check out the
 ;; documentation of `treesit-language-source-alist'.

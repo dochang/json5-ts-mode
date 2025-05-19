@@ -4,6 +4,7 @@ jobs:
   megalinter:
     docker:
       - image: oxsecurity/megalinter:v8
+        # checkov:skip=CKV_CIRCLECIPIPELINES_2:prefer mutable but stable tags
 
     steps:
       - checkout
@@ -31,6 +32,7 @@ jobs:
 
     docker:
       - image: silex/emacs:<< parameters.emacs-version >>-ci-eldev
+        # checkov:skip=CKV_CIRCLECIPIPELINES_2:prefer mutable but stable tags
 
     steps:
       - checkout
