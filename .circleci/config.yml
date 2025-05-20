@@ -31,7 +31,7 @@ jobs:
         type: string
 
     docker:
-      - image: silex/emacs:<< parameters.emacs-version >>-ci-eldev
+      - image: silex/emacs:<< parameters.emacs-version >>-alpine-ci-eldev
         # checkov:skip=CKV_CIRCLECIPIPELINES_2:prefer mutable but stable tags
 
     steps:
@@ -42,6 +42,11 @@ jobs:
             - &eldev-cache-key v1-eldev-<< parameters.emacs-version >>-{{ checksum "Eldev" }}
             - v1-eldev-<< parameters.emacs-version >>-
             - v1-eldev-
+
+      - run:
+          name: Install C/C++ compiler
+          command: |
+            apk --no-cache add build-base
 
       - run:
           name: Test
