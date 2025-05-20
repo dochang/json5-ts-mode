@@ -37,8 +37,9 @@
                  "https://github.com/Joakker/tree-sitter-json5"))
   ;; Install the grammar before loading the library, otherwise Emacs will
   ;; raise a warning.
-  (unless (treesit-ready-p 'json5 t)
-    (treesit-install-language-grammar 'json5))
+  (or (treesit-ready-p 'json5 t)
+      (treesit-install-language-grammar 'json5)
+      (error "cannot install grammer of json5"))
   (require 'json5-ts-mode))
 
 (ert-deftest json5-ts-test-indentation ()
