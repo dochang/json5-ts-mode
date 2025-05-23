@@ -97,10 +97,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Homebrew
-        id: set-up-homebrew
-        uses: Homebrew/actions/setup-homebrew@master
-
       - name: Set up Emacs
         uses: purcell/setup-emacs@master
         with:
@@ -108,7 +104,6 @@ jobs:
 
       - name: Install Eldev
         run: |
-          brew install curl
           curl -fsSL https://raw.github.com/doublep/eldev/master/webinstall/github-eldev | sh
 
       - name: Cache eldev
