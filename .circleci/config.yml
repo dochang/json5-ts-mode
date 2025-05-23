@@ -59,6 +59,27 @@ jobs:
           paths:
             - "~/.cache/eldev"
 
+      - run:
+          name: Upload Coverage Report
+          # Due to a bug of codecov, we don't use codecov orb.  Instead,
+          # we download codecov cli and upload coverage report manually.
+          #
+          # https://github.com/codecov/codecov-circleci-orb/issues/235
+          command: |
+            CODECOV_BIN="$(mktemp -d)/codecov/bin"
+            # `mktemp` on codecov doesn't support long options, use short
+            # options instead.
+            mkdir -p "${CODECOV_BIN}"
+            cd "${CODECOV_BIN}"
+
+            #download Codecov CLI
+            curl -Os https://cli.codecov.io/latest/alpine/codecov
+            chmod +x codecov
+
+            cd -
+            "${CODECOV_BIN}/codecov" upload-process --file coverage.json --slug "${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}"
+            # `CIRCLE_PROJECT_ID` is a UUID, do not use it.
+
 workflows:
   CI:
     jobs:
