@@ -1,0 +1,98 @@
+version: 2.1
+
+jobs:
+  megalinter:
+    docker:
+      - image: oxsecurity/megalinter:v8
+        # checkov:skip=CKV_CIRCLECIPIPELINES_2:prefer mutable but stable tags
+
+    steps:
+      - checkout
+
+      - run:
+          name: Setup environment variables
+          command: |
+            echo "export CI_JOB_URL=$CIRCLE_BUILD_URL" >> "$BASH_ENV"
+            # Export `CI_JOB_URL` for MegaLinter API Reporter
+            echo "export DEFAULT_WORKSPACE=$CIRCLE_WORKING_DIRECTORY" >> "$BASH_ENV"
+            . "$BASH_ENV"
+
+      - run:
+          name: Run MegaLinter
+          command: |
+            sh /entrypoint.sh
+
+      - store_artifacts:
+          path: megalinter-reports
+
+  test:
+    parameters:
+      emacs-version:
+        type: string
+
+    docker:
+      - image: silex/emacs:<< parameters.emacs-version >>-alpine-ci-eldev
+        # checkov:skip=CKV_CIRCLECIPIPELINES_2:prefer mutable but stable tags
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - &eldev-cache-key v1-eldev-<< parameters.emacs-version >>-{{ checksum "Eldev" }}
+            - v1-eldev-<< parameters.emacs-version >>-
+            - v1-eldev-
+
+      - run:
+          name: Install C/C++ compiler
+          command: |
+            apk --no-cache add build-base
+
+      - run:
+          name: Test
+          command: |
+            make lint
+            make test
+
+      - save_cache:
+          key: *eldev-cache-key
+          paths:
+            - "~/.cache/eldev"
+
+      - run:
+          name: Upload Coverage Report
+          # Due to a bug of codecov, we don't use codecov orb.  Instead,
+          # we download codecov cli and upload coverage report manually.
+          #
+          # https://github.com/codecov/codecov-circleci-orb/issues/235
+          command: |
+            CODECOV_BIN="$(mktemp -d)/codecov/bin"
+            # `mktemp` on codecov doesn't support long options, use short
+            # options instead.
+            mkdir -p "${CODECOV_BIN}"
+            cd "${CODECOV_BIN}"
+
+            #download Codecov CLI
+            curl -Os https://cli.codecov.io/latest/alpine/codecov
+            chmod +x codecov
+
+            cd -
+            "${CODECOV_BIN}/codecov" upload-process --file coverage.json --slug "${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}"
+            # `CIRCLE_PROJECT_ID` is a UUID, do not use it.
+
+workflows:
+  CI:
+    jobs:
+      - megalinter:
+          context: megalinter
+
+      - test:
+          matrix:
+            parameters:
+              emacs-version:
+                - "29.1"
+                - "29.2"
+                - "29.3"
+                - "29.4"
+                - "30.1"
+          context: test
