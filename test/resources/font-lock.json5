@@ -7,11 +7,12 @@
   //      ^ font-lock-delimiter-face
   //        ^ font-lock-string-face
   //         ^ font-lock-string-face
-  //                                      ^ font-lock-delimiter-face
   singleQuotes: 'I can use "double quotes" here',
   //            ^ font-lock-string-face
+  //             ^ font-lock-string-face
   hexadecimal: 0xdecaf,
   //           ^ font-lock-number-face
+  //                  ^ font-lock-delimiter-face
   leadingDecimalPoint: 0.8675309,
   //                   ^ font-lock-number-face
   andTrailing: 8675309,
@@ -20,6 +21,9 @@
   trailingComma: "in objects",
   andIn: ["arrays"],
   //     ^ font-lock-bracket-face
+  //      ^^^^^^^^ font-lock-string-face
+  //              ^ font-lock-bracket-face
+  //               ^ font-lock-delimiter-face
   backwardsCompatible: "with JSON",
 }
 // <- font-lock-bracket-face
