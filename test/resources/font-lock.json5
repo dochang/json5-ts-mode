@@ -2,23 +2,21 @@
   // <- nil // TODO Why `nil`?  Why not `font-lock-bracket-face`?
   // comments
   // <- font-lock-comment-face
-  // ^ font-lock-comment-face
+  // ^^^^^^^^ font-lock-comment-face
   unquoted: "and you can quote me on that",
-  // ^ font-lock-property-use-face
+  // <- font-lock-property-use-face
   //      ^ font-lock-delimiter-face
-  //        ^ font-lock-string-face
-  //         ^ font-lock-string-face
+  //        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ font-lock-string-face
   singleQuotes: 'I can use "double quotes" here',
-  //            ^ font-lock-string-face
-  //             ^ font-lock-string-face
+  //            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ font-lock-string-face
   hexadecimal: 0xdecaf,
-  //           ^ font-lock-number-face
+  //           ^^^^^^^ font-lock-number-face
   //                  ^ font-lock-delimiter-face
   leadingDecimalPoint: 0.8675309,
-  //                   ^ font-lock-number-face
+  //                   ^^^^^^^^^ font-lock-number-face
   andTrailing: 8675309,
   positiveSign: +1,
-  //            ^ font-lock-number-face
+  //            ^^ font-lock-number-face
   trailingComma: "in objects",
   andIn: ["arrays"],
   //     ^ font-lock-bracket-face
