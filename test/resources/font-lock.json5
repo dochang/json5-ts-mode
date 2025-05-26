@@ -1,5 +1,5 @@
 {
-  // <- nil
+  // <- nil // TODO Why `nil`?  Why not `font-lock-bracket-face`?
   // comments
   // <- font-lock-comment-face
   // ^ font-lock-comment-face
