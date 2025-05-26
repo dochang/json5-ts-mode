@@ -1,4 +1,5 @@
 {
+  // <- font-lock-bracket-face
   // comments
   // <- font-lock-comment-face
   // ^ font-lock-comment-face
