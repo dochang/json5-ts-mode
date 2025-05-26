@@ -1,5 +1,5 @@
 {
-  // <- font-lock-bracket-face
+  // <- nil
   // comments
   // <- font-lock-comment-face
   // ^ font-lock-comment-face
