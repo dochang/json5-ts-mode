@@ -1,5 +1,6 @@
 {
-  // <- nil // TODO Why `nil`?  Why not `font-lock-bracket-face`?
+  // <- nil
+  // TODO Why `nil`?  Why not `font-lock-bracket-face` like in Emacs 29?
   // comments
   // <- font-lock-comment-face
   // ^^^^^^^^ font-lock-comment-face
