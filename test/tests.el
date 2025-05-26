@@ -52,11 +52,11 @@
   (skip-unless (treesit-ready-p 'json5 t))
   (ert-test-erts-file (ert-resource-file "movement.erts")))
 
-(when (>= emacs-major-version 30)
-  (ert-deftest json5-ts-test-font-lock ()
-    (skip-unless (treesit-ready-p 'json5 t))
-    (let ((treesit-font-lock-level 4))
-      (ert-font-lock-test-file (ert-resource-file "font-lock.json5") 'json5-ts-mode))))
+(ert-deftest json5-ts-test-font-lock ()
+  (skip-unless (and (treesit-ready-p 'json5 t)
+                    (>= emacs-major-version 30)))
+  (let ((treesit-font-lock-level 4))
+    (ert-font-lock-test-file (ert-resource-file "font-lock.json5") 'json5-ts-mode)))
 
 (provide 'json5-ts-mode-tests)
 
