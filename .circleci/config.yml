@@ -66,18 +66,14 @@ jobs:
           #
           # https://github.com/codecov/codecov-circleci-orb/issues/235
           command: |
-            CODECOV_BIN="$(mktemp -d)/codecov/bin"
+            CODECOV="$(mktemp -d)/codecov/bin/codecov"
             # `mktemp` on codecov doesn't support long options, use short
             # options instead.
-            mkdir -p "${CODECOV_BIN}"
-            cd "${CODECOV_BIN}"
 
-            #download Codecov CLI
-            curl -Os https://cli.codecov.io/latest/alpine/codecov
-            chmod +x codecov
+            curl --output "${CODECOV}" --create-dirs --location --silent --show-error https://cli.codecov.io/latest/alpine/codecov
+            chmod +x "${CODECOV}"
 
-            cd -
-            "${CODECOV_BIN}/codecov" upload-process --file coverage.json --slug "${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}"
+            "${CODECOV}" upload-process --file coverage.json --slug "${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}"
             # `CIRCLE_PROJECT_ID` is a UUID, do not use it.
 
 workflows:
